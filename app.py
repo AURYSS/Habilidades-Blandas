@@ -73,15 +73,15 @@ st.markdown("""
     
     /* Decoración sutil de fondo */
     .stApp {
-        background-image: radial-gradient(#ffb6c1, rgba(255,182,193,.2) 2px, transparent 4px),
-                          radial-gradient(#add8e6, rgba(173,216,230,.15) 1px, transparent 3px);
+        background-image: radial-gradient(#FBE4B5, rgba(251,228,181,.3) 2px, transparent 4px),
+                          radial-gradient(#5CB2C4, rgba(92,178,196,.15) 1px, transparent 3px);
         background-size: 400px 400px, 250px 250px;
         background-position: 0 0, 40px 60px;
     }
 
     h1, h2, h3, .main-title, .section-header {
         font-family: 'Poppins', sans-serif !important;
-        color: #ff758c;
+        color: #1A4D5B;
     }
 
     p, span, div, li, td, th {
@@ -91,14 +91,14 @@ st.markdown("""
     .main-title {
         font-size: 3rem;
         font-weight: 800;
-        background: linear-gradient(135deg, #ff758c, #ff9a9e);
+        background: linear-gradient(135deg, #1A4D5B, #297E91);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0.5rem;
-        text-shadow: 0px 2px 4px rgba(255, 154, 158, 0.2);
+        text-shadow: 0px 2px 4px rgba(26, 77, 91, 0.2);
     }
     .sub-title {
-        color: #555555;
+        color: #297E91;
         font-size: 1.2rem;
         font-weight: 600;
         margin-bottom: 2rem;
@@ -106,8 +106,8 @@ st.markdown("""
     .section-header {
         font-size: 1.8rem;
         font-weight: 600;
-        color: #ff758c;
-        border-bottom: 2px dashed #ff9a9e;
+        color: #1A4D5B;
+        border-bottom: 2px dashed #5CB2C4;
         padding-bottom: 0.5rem;
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
@@ -117,57 +117,104 @@ st.markdown("""
     .metric-card {
         background-color: rgba(255, 255, 255, 0.8) !important;
         backdrop-filter: blur(12px) !important;
-        border: 2px solid #fecfef !important;
+        border: 2px solid #5CB2C4 !important;
         border-radius: 16px;
         padding: 1.5rem;
         text-align: center;
-        box-shadow: 0 4px 12px 0 rgba(255, 154, 158, 0.15);
+        box-shadow: 0 4px 12px 0 rgba(41, 126, 145, 0.15);
         transition: transform 0.3s, box-shadow 0.3s;
     }
     .metric-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px 0 rgba(255, 154, 158, 0.3);
-        border: 2px solid #ff9a9e !important;
+        box-shadow: 0 8px 20px 0 rgba(41, 126, 145, 0.3);
+        border: 2px solid #297E91 !important;
     }
     
     .metric-value {
         font-size: 2.2rem;
         font-weight: 800;
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        background: linear-gradient(135deg, #1A4D5B, #297E91);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
     .metric-label {
         font-size: 0.95rem;
-        color: #4a4a4a;
+        color: #1A4D5B;
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-top: 5px;
         font-weight: 700;
     }
     
-    /* Botones Cutes */
+    /* Botones Cutes pero con nuevos colores */
     .stButton > button {
-        background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%) !important;
+        background: linear-gradient(135deg, #297E91 0%, #5CB2C4 100%) !important;
         color: #fff !important;
         border: none !important;
         border-radius: 20px !important;
         font-weight: 600 !important;
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(255, 154, 158, 0.4) !important;
+        box-shadow: 0 4px 10px rgba(41, 126, 145, 0.4) !important;
     }
     .stButton > button:hover {
-        background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%) !important;
+        background: linear-gradient(135deg, #1A4D5B 0%, #297E91 100%) !important;
         transform: scale(1.05);
-        box-shadow: 0 6px 15px rgba(255, 154, 158, 0.6) !important;
+        box-shadow: 0 6px 15px rgba(26, 77, 91, 0.6) !important;
     }
 
     /* Tablas y dataframes */
     .stDataFrame {
         border-radius: 12px;
         overflow: hidden;
+    }
+    
+    /* INNOVACIÓN: Ocultar sidebar por completo */
+    [data-testid="collapsedControl"] { display: none !important; }
+    [data-testid="stSidebar"] { display: none !important; }
+    
+    /* Hacer que el header de Streamlit desaparezca para un look más limpio */
+    header { background: transparent !important; }
+    
+    /* Estilizar radio buttons horizontales como Pills/Pestañas modernas */
+    div[role="radiogroup"] {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    div[role="radiogroup"] > label {
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid #5CB2C4;
+        padding: 12px 24px;
+        border-radius: 50px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(92, 178, 196, 0.1);
+    }
+    div[role="radiogroup"] > label:hover {
+        background: #5CB2C4;
+        border-color: #5CB2C4;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(92, 178, 196, 0.3);
+    }
+    div[role="radiogroup"] > label:hover p {
+        color: white !important;
+    }
+    div[role="radiogroup"] > label[data-checked="true"] {
+        background: linear-gradient(135deg, #1A4D5B, #297E91);
+        border-color: #1A4D5B;
+        box-shadow: 0 8px 15px rgba(26, 77, 91, 0.4);
+    }
+    div[role="radiogroup"] > label[data-checked="true"] p {
+        color: white !important;
+        font-weight: 800;
+    }
+    /* Ocultar el círculo nativo del radio button */
+    div[role="radiogroup"] > label span[data-baseweb="radio"] {
+        display: none;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -188,30 +235,6 @@ if "last_algorithm" not in st.session_state:
 if "features_used" not in st.session_state:
     st.session_state.features_used = []
 
-# Título y Subtítulo
-st.markdown('<div class="main-title">🌱 Soft Skills Clustering Pipeline</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-title">Análisis de Habilidades Blandas • Unidad IV: Análisis No Supervisado</div>', unsafe_allow_html=True)
-
-st.sidebar.markdown("## ⚙️ Panel de Control")
-st.sidebar.markdown("---")
-
-pantalla = st.sidebar.radio(
-    "Módulos Principales",
-    [
-        "📥 Importar Dataset",
-        "👁️ Explorador de Registros",
-        "🔍 Segmentación Avanzada",
-        "📊 Análisis Descriptivo",
-        "🧠 Motor de Machine Learning",
-        "💬 Insights Cualitativos",
-        "💾 Exportar Reportes",
-        "🕒 Registro de Experimentos"
-    ],
-    label_visibility="collapsed"
-)
-
-st.sidebar.markdown("---")
-
 # Intentar cargar datos de PostgreSQL si existen al inicio
 try:
     df_db = obtener_todas_las_encuestas()
@@ -224,14 +247,42 @@ except Exception as e:
     db_status = "🔴 Error de Conexión"
     reg_count = 0
 
-st.sidebar.markdown("### 📊 Estado del Sistema")
-st.sidebar.markdown(f"**PostgreSQL:** {db_status}")
-st.sidebar.markdown(f"**Registros:** `{reg_count}` en memoria")
+# Título y Subtítulo - Top Bar Moderno
+col_title, col_status = st.columns([3, 1])
 
-with st.sidebar.expander("ℹ️ Detalles del Entorno"):
-    st.caption("Pipeline Version: 2.1.0")
-    st.caption("Environment: Producción")
-    st.caption("ML Backend: scikit-learn")
+with col_title:
+    st.markdown('<div class="main-title">🌱 Soft Skills Analytics</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-title">Unidad IV: Análisis No Supervisado</div>', unsafe_allow_html=True)
+
+with col_status:
+    st.markdown(f"""
+    <div style="background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); padding: 15px; border-radius: 15px; border: 2px solid #5CB2C4; text-align: right; box-shadow: 0 4px 6px rgba(41, 126, 145, 0.1);">
+        <p style="margin: 0; font-size: 0.9rem; color: #297E91; text-transform: uppercase; letter-spacing: 1px;"><b>Estado Sistema</b></p>
+        <p style="margin: 0; font-size: 1rem; color: #1A4D5B; font-weight: 700;">{db_status}</p>
+        <p style="margin: 0; font-size: 0.9rem; color: #1A4D5B;"><b>{reg_count}</b> Registros</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.write("") # Espaciador visual
+
+# Navegación horizontal moderna tipo "Pills"
+pantalla = st.radio(
+    "Navegación",
+    [
+        "📥 Importar Dataset",
+        "👁️ Explorador de Registros",
+        "🔍 Segmentación Avanzada",
+        "📊 Análisis Descriptivo",
+        "🧠 Motor de Machine Learning",
+        "💬 Insights Cualitativos",
+        "💾 Exportar Reportes",
+        "🕒 Registro de Experimentos"
+    ],
+    horizontal=True,
+    label_visibility="collapsed"
+)
+
+st.markdown("---")
 # ==============================================================================
 # PANTALLA 1: INGESTA DE DATOS
 # ==============================================================================

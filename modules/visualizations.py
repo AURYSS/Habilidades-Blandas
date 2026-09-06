@@ -118,7 +118,7 @@ def plot_histograma_poligono(serie, titulo="Histograma y Polígono de Frecuencia
         x=bins_centers,
         y=counts,
         name='Frecuencia',
-        marker_color='#ff9a9e',
+        marker_color='#297E91',
         opacity=0.7
     ))
     
@@ -128,7 +128,7 @@ def plot_histograma_poligono(serie, titulo="Histograma y Polígono de Frecuencia
         y=counts,
         mode='lines+markers',
         name='Polígono',
-        line=dict(color='#add8e6', width=3),
+        line=dict(color='#5CB2C4', width=3),
         marker=dict(size=8)
     ))
     
@@ -176,8 +176,8 @@ def plot_metodo_codo(k_values, inercias):
         y=inercias,
         mode='lines+markers',
         name='Inercia (Manual)',
-        line=dict(color='#add8e6', width=3),
-        marker=dict(size=10, color='#ff9a9e')
+        line=dict(color='#5CB2C4', width=3),
+        marker=dict(size=10, color='#297E91')
     ))
     
     fig.update_layout(
