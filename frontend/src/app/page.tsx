@@ -35,9 +35,9 @@ export default function HomePage() {
   return (
     <div>
       <PageHeader
-        eyebrow="Unidad IV · Análisis No Supervisado"
+        eyebrow="Habilidades Blandas · Aprendizaje No Supervisado"
         title="Soft Skills AI"
-        description="Pipeline de medición de habilidades blandas: carga de dataset, estadística con algoritmos propios y aplicación de modelos pre-entrenados (K-Means, DBSCAN, GMM) seleccionables desde la app."
+        description="Pipeline de medición de habilidades blandas: carga de dataset, estadística con algoritmos propios y aplicación de modelos pre-entrenados seleccionables desde la app."
       />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -46,7 +46,7 @@ export default function HomePage() {
           value={meta ? meta.total : "…"}
           icon={<Activity className="w-5 h-5" />}
           accent="bg-brand-50 text-brand-700"
-          hint={meta && meta.db_status === "online" ? "PostgreSQL online" : undefined}
+          hint={meta && meta.db_status === "online" ? "Base de datos online" : undefined}
         />
         <StatCard
           label="Habilidades medidas"

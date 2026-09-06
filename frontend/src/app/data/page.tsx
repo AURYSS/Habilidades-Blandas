@@ -87,7 +87,7 @@ export default function DataPage() {
   return (
     <div>
       <PageHeader
-        eyebrow="Base de datos · PostgreSQL"
+        eyebrow="Cargar y explorar datos"
         title="Datos de habilidades blandas"
         description="Carga datasets (CSV/Excel) con 2 a 4 habilidades en escala Likert 1-10, o genera datos sintéticos, y filtra la selección con valores cuantitativos."
         action={

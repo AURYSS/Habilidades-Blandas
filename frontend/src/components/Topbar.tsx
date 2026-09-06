@@ -26,7 +26,7 @@ export function Topbar() {
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-md">
       <div className="px-4 sm:px-8 lg:px-10 py-4 flex items-center justify-between">
         <div>
-          <p className="text-[13px] font-semibold text-slate-500">Unidad IV · Análisis No Supervisado</p>
+          <p className="text-[13px] font-semibold text-slate-500">Dashboard · Habilidades Blandas</p>
         </div>
         <div className="flex items-center gap-3">
           <span
