@@ -1,14 +1,21 @@
-venv/
+# Repo legacy con su propia historia (no lo mezclamos)
+/Habilidades-Blandas/
+
+# Entornos y cachés
+node_modules/
 .venv/
-env/
-ENV/
+venv/
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.ipynb_checkpoints/
 .DS_Store
-*.db
-models/*.pkl
+
+# Modelos entrenados y datos
+backend/models/*.pkl
+backend/.env
 *.csv
-!data/datos_prueba_zodiac.csv
+!backend/requirements.txt
+
+# Builds
+.next/
+out/
+dist/
