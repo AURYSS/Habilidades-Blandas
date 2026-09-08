@@ -61,8 +61,8 @@ class FrequencyResponse(BaseModel):
 
 # ---------------------------------------------------------------- clustering
 def _validar_skills(v: list[str]) -> list[str]:
-    if not (2 <= len(v) <= 4):
-        raise ValueError("Selecciona entre 2 y 4 habilidades.")
+    if not (1 <= len(v) <= 4):
+        raise ValueError("Selecciona entre 1 y 4 habilidades.")
     invalidos = set(v) - SKILL_SET
     if invalidos:
         raise ValueError(f"Habilidades desconocidas: {', '.join(invalidos)}")

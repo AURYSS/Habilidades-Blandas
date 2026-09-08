@@ -35,7 +35,9 @@ export function Topbar() {
                 ? "bg-slate-100 text-slate-500"
                 : status.online
                   ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                  : "bg-rose-50 text-rose-700 border border-rose-200"
+                  : status.extra?.status === "ok"
+                    ? "bg-amber-50 text-amber-700 border border-amber-200"
+                    : "bg-rose-50 text-rose-700 border border-rose-200"
             }`}
           >
             {loading ? (
@@ -45,7 +47,13 @@ export function Topbar() {
             ) : (
               <CircleX className="w-3.5 h-3.5" />
             )}
-            {loading ? "Verificando…" : status.online ? "API en línea" : "API sin conexión"}
+            {loading 
+              ? "Verificando…" 
+              : status.online 
+                ? "API en línea" 
+                : status.extra?.status === "ok" 
+                  ? "BD desconectada" 
+                  : "API sin conexión"}
           </span>
         </div>
       </div>

@@ -34,6 +34,22 @@ export default function HistoryPage() {
     recargar();
   };
 
+  const reentrenar = async (item: HistoricoItem) => {
+    try {
+      const skills = item.skills as unknown as string[];
+      await api.aplicar({
+        skills,
+        algoritmo: "kmeans",
+        modelo_id: null,
+        nombre_sesion: `${item.nombre_sesion} (Re-entrenado)`,
+      });
+      recargar();
+      alert("Sesión re-entrenada con éxito.");
+    } catch (e) {
+      alert(`Error al re-entrenar: ${(e as Error).message}`);
+    }
+  };
+
   const columnas = [
     {
       key: "id",
@@ -60,16 +76,22 @@ export default function HistoryPage() {
     {
       key: "_acciones",
       label: "",
-      render: (r: Record<string, unknown>) => (
-        <div className="flex gap-2">
-          <button className="btn-ghost" onClick={() => ver(Number(r.id))}>
-            <Eye className="w-4 h-4" />
-          </button>
-          <button className="btn-ghost text-red-500" onClick={() => eliminar(Number(r.id))}>
-            <Trash2 className="w-4 h-4" />
-          </button>
-        </div>
-      ),
+      render: (r: Record<string, unknown>) => {
+        const item = r as unknown as HistoricoItem;
+        return (
+          <div className="flex gap-2">
+            <button className="btn-ghost" title="Ver detalle" onClick={() => ver(Number(r.id))}>
+              <Eye className="w-4 h-4" />
+            </button>
+            <button className="btn-ghost text-brand-600" title="Re-entrenar" onClick={() => reentrenar(item)}>
+              <Activity className="w-4 h-4" />
+            </button>
+            <button className="btn-ghost text-red-500" title="Eliminar" onClick={() => eliminar(Number(r.id))}>
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+        );
+      },
     },
   ];
 

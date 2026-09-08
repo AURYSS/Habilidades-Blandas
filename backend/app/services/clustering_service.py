@@ -181,10 +181,10 @@ def aplicar_minmax_por_elbow(df_feat: pd.DataFrame, normalize: bool = True):
 
 # ---------------------------------------------------------------- PCA y persistencia
 def apply_pca_reduction(df_features: pd.DataFrame, n_components: int = 3):
-    n_components = max(2, min(int(n_components), df_features.shape[1], len(df_features)))
-    pca = PCA(n_components=n_components, random_state=42)
+    real_n_components = min(int(n_components), df_features.shape[1], len(df_features))
+    pca = PCA(n_components=real_n_components, random_state=42)
     X_pca = pca.fit_transform(df_features.fillna(5))
-    cols = [f"PC{i + 1}" for i in range(n_components)]
+    cols = [f"PC{i + 1}" for i in range(real_n_components)]
     return pd.DataFrame(X_pca, columns=cols, index=df_features.index), pca.explained_variance_ratio_.tolist()
 
 

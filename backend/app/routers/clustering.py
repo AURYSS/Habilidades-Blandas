@@ -106,8 +106,8 @@ def metodo_codo(body: ElbowRequest, db: Session = Depends(get_db)):
         raise HTTPException(404, "No hay datos en la base.")
 
     skills = [s for s in body.skills if s in df.columns]
-    if len(skills) < 2:
-        raise HTTPException(400, "Se necesitan al menos 2 habilidades presentes en los datos.")
+    if len(skills) < 1:
+        raise HTTPException(400, "Se necesita al menos 1 habilidad presente en los datos.")
 
     df_feat = df[skills].copy()
     k_values, inercias, recomendacion = cs.aplicar_minmax_por_elbow(df_feat, normalize=body.normalize)
@@ -134,8 +134,8 @@ def aplicar_modelo(body: AplicarModeloRequest, db: Session = Depends(get_db)):
         raise HTTPException(404, "No hay datos en la base.")
 
     skills = [s for s in body.skills if s in df.columns]
-    if len(skills) < 2:
-        raise HTTPException(400, "Los datos deben contener al menos 2 de las habilidades seleccionadas.")
+    if len(skills) < 1:
+        raise HTTPException(400, "Los datos deben contener al menos 1 de las habilidades seleccionadas.")
 
     modelo = _buscar_modelo(db, body.skills, body.algoritmo, body.modelo_id)
     params = json.loads(modelo.parametros or "{}")
@@ -238,6 +238,8 @@ def graficas_clusters(body: ClusterPlotsRequest, db: Session = Depends(get_db)):
 
     df_feat = df_res[skills].copy().fillna(5)
     df_pca, varianza = cs.apply_pca_reduction(df_feat, n_components=3)
+    if "PC2" not in df_pca.columns:
+        df_pca["PC2"] = 0.0
     if "PC3" not in df_pca.columns:
         df_pca["PC3"] = 0.0
     hover = df_res[["id_empleado", "departamento", "puesto"]].reset_index(drop=True)

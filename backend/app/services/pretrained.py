@@ -34,7 +34,7 @@ from .clustering_service import (
     train_clustering_model,
 )
 
-ALGORITMOS = ["kmeans", "dbscan", "gmm"]
+ALGORITMOS = ["kmeans"]
 
 
 def _eps_dbscan(X: np.ndarray, min_samples: int = 3, quantile: float = 0.15) -> float:
@@ -149,7 +149,7 @@ def crear_modelos_base(df: pd.DataFrame, db: Session) -> list[int]:
     Devuelve los ids de los modelos recién generados (omite los ya existentes).
     """
     nuevos = []
-    for r in range(2, 5):
+    for r in range(1, 5):
         for skills in itertools.combinations(SKILLS, r):
             for algoritmo in ALGORITMOS:
                 mid = entrenar_y_registrar(df, list(skills), algoritmo, db)
