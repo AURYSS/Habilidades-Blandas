@@ -34,7 +34,7 @@ export default function MLPage() {
   const toggleSkill = (s: string) => {
     setSkills((prev) => {
       if (prev.includes(s)) {
-        if (prev.length <= 1) return prev;
+        if (prev.length <= 2) return prev;
         return prev.filter((x) => x !== s);
       }
       if (prev.length >= 4) return prev;
@@ -130,7 +130,7 @@ export default function MLPage() {
         }
       />
 
-      <Card title="1 · Selección de habilidades" subtitle="Mínimo 1 y máximo 4 de la escala Likert 1-10">
+      <Card title="1 · Selección de habilidades" subtitle="Mínimo 2 y máximo 4 de la escala Likert 1-10">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {SKILLS.map((s) => {
             const activo = skills.includes(s);

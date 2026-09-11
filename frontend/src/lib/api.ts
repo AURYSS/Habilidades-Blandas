@@ -93,6 +93,8 @@ export const api = {
     }),
   aplicar: (body: AplicarRequest) =>
     request<AplicarResponse>("/clustering/aplicar", { method: "POST", body: JSON.stringify(body) }),
+  reentrenarModelo: (body: AplicarRequest) =>
+    request<AplicarResponse>("/clustering/reentrenar-modelo", { method: "POST", body: JSON.stringify(body) }),
   reentrenarBase: () =>
     request<{ generados: number; modelos: Modelo[] }>("/clustering/reentrenar-base", {
       method: "POST",

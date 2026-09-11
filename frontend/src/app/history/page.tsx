@@ -12,6 +12,12 @@ import { StatCard } from "@/components/StatCard";
 export default function HistoryPage() {
   const [items, setItems] = useState<HistoricoItem[]>([]);
   const [detalle, setDetalle] = useState<{ sesionId: number; data: DetalleExperimento } | null>(null);
+  const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
+
+  const showToast = (msg: string, type: "success" | "error" = "success") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3500);
+  };
 
   const recargar = () => {
     api.historial().then(setItems).catch(() => {});
@@ -37,16 +43,16 @@ export default function HistoryPage() {
   const reentrenar = async (item: HistoricoItem) => {
     try {
       const skills = item.skills as unknown as string[];
-      await api.aplicar({
+      await api.reentrenarModelo({
         skills,
-        algoritmo: "kmeans",
+        algoritmo: (item.algoritmo as "kmeans" | "dbscan" | "gmm") || "kmeans",
         modelo_id: null,
         nombre_sesion: `${item.nombre_sesion} (Re-entrenado)`,
       });
       recargar();
-      alert("Sesión re-entrenada con éxito.");
+      showToast("Sesión re-entrenada con éxito.");
     } catch (e) {
-      alert(`Error al re-entrenar: ${(e as Error).message}`);
+      showToast(`Error al re-entrenar: ${(e as Error).message}`, "error");
     }
   };
 
@@ -70,8 +76,10 @@ export default function HistoryPage() {
     {
       key: "timestamp",
       label: "Creado",
-      render: (r: Record<string, unknown>) =>
-        new Date(String(r.timestamp)).toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" }),
+      render: (r: Record<string, unknown>) => {
+        const ts = String(r.timestamp);
+        return new Date(ts.endsWith("Z") ? ts : ts + "Z").toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" });
+      },
     },
     {
       key: "_acciones",
@@ -123,7 +131,7 @@ export default function HistoryPage() {
               <p><strong className="text-ink-900">Nombre:</strong> {base.nombre_sesion}</p>
               <p><strong className="text-ink-900">Algoritmo:</strong> {base.algoritmo}</p>
               <p><strong className="text-ink-900">Clústeres (k):</strong> {base.k_clusters ?? "—"}</p>
-              <p><strong className="text-ink-900">Creado:</strong> {base.creado}</p>
+              <p><strong className="text-ink-900">Creado:</strong> {base.creado ? new Date(base.creado.endsWith("Z") ? base.creado : base.creado + "Z").toLocaleString("es-MX", { dateStyle: "short", timeStyle: "short" }) : "—"}</p>
             </div>
             <div className="space-y-1 text-slate-600">
               <p>
@@ -143,6 +151,23 @@ export default function HistoryPage() {
             </p>
           )}
         </Card>
+      )}
+
+      {toast && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl shadow-xl border text-sm font-medium flex items-center gap-2 animate-in slide-in-from-bottom-4 fade-in duration-300 ${
+            toast.type === "success"
+              ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+              : "bg-red-50 text-red-800 border-red-200"
+          }`}
+        >
+          {toast.type === "success" ? (
+            <Activity className="w-4 h-4 text-emerald-600" />
+          ) : (
+            <Trash2 className="w-4 h-4 text-red-600" />
+          )}
+          {toast.msg}
+        </div>
       )}
     </div>
   );
