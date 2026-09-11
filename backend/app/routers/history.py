@@ -100,7 +100,7 @@ def detalle_experimento(sesion_id: int, db: Session = Depends(get_db)):
             "skills": skills,
             "modelo": modelo_info,
             "normalizar": bool(parametros.get("normalizacion")),
-            "creado": exp.timestamp.strftime("%Y-%m-%d %H:%M") if exp.timestamp else None,
+            "creado": exp.timestamp.isoformat() if exp.timestamp else None,
         },
         "silueta": exp.silueta,
         "inercia": exp.inercia,

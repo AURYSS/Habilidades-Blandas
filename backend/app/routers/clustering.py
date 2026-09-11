@@ -213,6 +213,26 @@ def aplicar_modelo(body: AplicarModeloRequest, db: Session = Depends(get_db)):
     )
 
 
+@router.post("/reentrenar-modelo", response_model=AplicarModeloResponse)
+def reentrenar_modelo(body: AplicarModeloRequest, db: Session = Depends(get_db)):
+    """Re-entrena un modelo de la base de conocimiento usando los datos actuales y lo aplica."""
+    df = empleados_a_df(db)
+    if df.empty:
+        raise HTTPException(404, "No hay datos en la base.")
+
+    skills = [s for s in body.skills if s in df.columns]
+    if len(skills) < 1:
+        raise HTTPException(400, "Los datos deben contener al menos 1 de las habilidades seleccionadas.")
+
+    mid = pretrained.entrenar_y_registrar(df, body.skills, body.algoritmo, db, es_base=False, overwrite=True)
+    if mid is None:
+        raise HTTPException(500, "Error al reentrenar el modelo.")
+    
+    # Aplicar el modelo recién reentrenado (forzando su id)
+    body.modelo_id = mid
+    return aplicar_modelo(body, db)
+
+
 @router.post("/plots", response_model=ClusterPlotsResponse)
 def graficas_clusters(body: ClusterPlotsRequest, db: Session = Depends(get_db)):
     exp = db.get(Experimento, body.sesion_id)

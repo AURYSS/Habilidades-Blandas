@@ -98,7 +98,7 @@ def _configuracion_y_entrenamiento(df_feat: pd.DataFrame, algoritmo: str, escala
     raise ValueError(algoritmo)
 
 
-def entrenar_y_registrar(df: pd.DataFrame, skills: list[str], algoritmo: str, db: Session, es_base: bool = True):
+def entrenar_y_registrar(df: pd.DataFrame, skills: list[str], algoritmo: str, db: Session, es_base: bool = True, overwrite: bool = False):
     """Entrena un modelo para un subconjunto de habilidades y lo registra en la BD."""
     skills = sorted(set(skills))
     if not set(skills).issubset(set(SKILLS)):
@@ -112,7 +112,7 @@ def entrenar_y_registrar(df: pd.DataFrame, skills: list[str], algoritmo: str, db
 
     nombre = _nombre_modelo(algoritmo, skills)
     existe = db.query(Modelo).filter(Modelo.nombre == nombre).first()
-    if existe:
+    if existe and not overwrite:
         return None
 
     path = save_model_bundle(model, nombre)
@@ -120,27 +120,42 @@ def entrenar_y_registrar(df: pd.DataFrame, skills: list[str], algoritmo: str, db
     silueta = metrics.get("Silhouette Score (Manual)", metrics.get("Silhouette Score", 0.0))
     inercia = metrics.get("Inertia (Manual)")
 
-    modelo = Modelo(
-        nombre=nombre,
-        algoritmo=algoritmo,
-        features=json.dumps(skills),
-        k_clusters=int(k_clusters) if k_clusters is not None else None,
-        parametros=json.dumps({
+    if existe and overwrite:
+        existe.k_clusters = int(k_clusters) if k_clusters is not None else None
+        existe.parametros = json.dumps({
             **extra,
             "normalizacion": escala,
             "npuntos": int(len(df_feat)),
-        }),
-        inercia=round(float(inercia), 4) if inercia is not None else None,
-        silueta=round(float(silueta), 4) if silueta is not None else None,
-        ruta_modelo=path,
-        ruta_scaler=None,
-        es_base=es_base,
-        timestamp=datetime.utcnow(),
-    )
-    db.add(modelo)
-    db.commit()
-    db.refresh(modelo)
-    return modelo.id
+        })
+        existe.inercia = round(float(inercia), 4) if inercia is not None else None
+        existe.silueta = round(float(silueta), 4) if silueta is not None else None
+        existe.ruta_modelo = path
+        existe.timestamp = datetime.utcnow()
+        db.commit()
+        db.refresh(existe)
+        return existe.id
+    else:
+        modelo = Modelo(
+            nombre=nombre,
+            algoritmo=algoritmo,
+            features=json.dumps(skills),
+            k_clusters=int(k_clusters) if k_clusters is not None else None,
+            parametros=json.dumps({
+                **extra,
+                "normalizacion": escala,
+                "npuntos": int(len(df_feat)),
+            }),
+            inercia=round(float(inercia), 4) if inercia is not None else None,
+            silueta=round(float(silueta), 4) if silueta is not None else None,
+            ruta_modelo=path,
+            ruta_scaler=None,
+            es_base=es_base,
+            timestamp=datetime.utcnow(),
+        )
+        db.add(modelo)
+        db.commit()
+        db.refresh(modelo)
+        return modelo.id
 
 
 def crear_modelos_base(df: pd.DataFrame, db: Session) -> list[int]:
@@ -149,7 +164,7 @@ def crear_modelos_base(df: pd.DataFrame, db: Session) -> list[int]:
     Devuelve los ids de los modelos recién generados (omite los ya existentes).
     """
     nuevos = []
-    for r in range(1, 5):
+    for r in range(2, 5):
         for skills in itertools.combinations(SKILLS, r):
             for algoritmo in ALGORITMOS:
                 mid = entrenar_y_registrar(df, list(skills), algoritmo, db)
